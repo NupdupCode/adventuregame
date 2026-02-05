@@ -21,3 +21,10 @@ repeat if enemy isnt dead
 Player>Enemy>Player>Enemy
 Player or Enemy based on speed
 Player or Enemy 50/50 chance
+
+
+Spells
+works like weapons
+takes mana
+no limited amount of slots
+

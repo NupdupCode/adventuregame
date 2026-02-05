@@ -265,6 +265,12 @@ def trigger_dark_forest():
     choices = ["Investigate", "Light Fire", "Leave"]
     return text, choices
 
+def trigger_ancient_tomb():
+    """New Event: Discover an ancient tomb with a mysterious weapon"""
+    text = "You discover an ancient tomb hidden beneath moss and vines. Inside, you see a glowing weapon on a stone pedestal.\n\n1. Take the weapon\n2. Search for treasure first\n3. Leave it alone"
+    choices = ["Take", "Search", "Leave"]
+    return text, choices
+
 # Event pool by biome
 EVENTS = {
     "Forest": [trigger_gnome_ambush, trigger_old_ruins, trigger_forest_encounter, trigger_ancient_tomb, trigger_crystal_cave, trigger_dark_forest],
@@ -273,7 +279,7 @@ EVENTS = {
     "Swamp": [trigger_swamp_event, trigger_cursed_library],
     "Tundra": [trigger_igloo_event, trigger_lost_temple],
     "Mountain": [trigger_cave_event, trigger_blacksmith_forge, trigger_wizard_tower],
-    "Desert": [trigger_desert_oasis, trigger_dragon_nest],
+    "Desert": [trigger_desert_oasis, trigger_dragon_nest, trigger_ancient_tomb],
     "Jungle": [trigger_jungle_vines, trigger_phoenix_shrine],
 }
 
@@ -710,6 +716,19 @@ def process_choice(event_name, choice):
             return {"text": "The light frightens the creatures away. XP +10", "continue": True}
         elif choice == "Leave":
             return {"text": "You wisely leave the dark forest.", "continue": True}
+
+    elif event_name == "trigger_ancient_tomb":
+        if choice == "Take":
+            fate == random.randint(1, 100)
+            if fate <= 30:
+                weapon_msg = weapon_get("Shadow Katana")
+                character_stats["XP"] += 5
+                return {"text": f"{weapon_msg}\nXP +25", "continue": True}
+            else:
+                character_stats["HP"] -= 10
+                return {"text": "The tomb's curse strikes you! HP -10", "continue": True}
+
+    # New Events go here with their own choice handling logic
     
     return {"text": "Unknown choice", "continue": True}
 
